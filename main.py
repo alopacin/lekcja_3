@@ -1,4 +1,5 @@
-liczba_produktow = int(input('Ile produktów chcesz wysłać?: '))
+#nadanie zmiennych
+
 LIMIT_JEDNEJ_PACZKI = 20
 ilosc_wyslanych_paczek = 1
 laczna_liczba_kilogramow = 0
@@ -6,29 +7,31 @@ suma_pustych_kilogramow = 0
 waga_przedmiotu = 0
 idx = 0
 nadmiar = 0
-jedna_paczka = 0
+paczka = 0
+liczba_produktow = int(input('Ile produktów chcesz wysłać?: '))
+
+# wlasciwa czesc programu
 
 for idx in range(liczba_produktow):
+    waga_przedmiotu -= waga_przedmiotu
     waga_przedmiotu += int(input('Podaj wagę przedmiotu: '))
-    jedna_paczka += waga_przedmiotu
+    paczka += waga_przedmiotu
     if waga_przedmiotu < 1 or waga_przedmiotu > 10:
         break
-    elif jedna_paczka < LIMIT_JEDNEJ_PACZKI:
+    elif paczka <= LIMIT_JEDNEJ_PACZKI:
         laczna_liczba_kilogramow += waga_przedmiotu
-        waga_przedmiotu -= waga_przedmiotu
         continue
-    elif jedna_paczka > LIMIT_JEDNEJ_PACZKI:
+    elif paczka > LIMIT_JEDNEJ_PACZKI:
+        laczna_liczba_kilogramow += waga_przedmiotu
         ilosc_wyslanych_paczek += 1
-        nadmiar += jedna_paczka - 20
+        nadmiar += paczka - LIMIT_JEDNEJ_PACZKI
         suma_pustych_kilogramow += nadmiar
-        jedna_paczka -= jedna_paczka
-        waga_przedmiotu -= waga_przedmiotu
+        paczka -= paczka
         continue
-    elif jedna_paczka == LIMIT_JEDNEJ_PACZKI:
-        ilosc_wyslanych_paczek += 1
-        laczna_liczba_kilogramow += waga_przedmiotu
-        jedna_paczka -= jedna_paczka
-        waga_przedmiotu -= waga_przedmiotu
+if ilosc_wyslanych_paczek <= 1:
+    suma_pustych_kilogramow = LIMIT_JEDNEJ_PACZKI - paczka
+
+# wyswietlenie wynikow
 
 if ilosc_wyslanych_paczek == 1:
     print(f'Wysłano : {ilosc_wyslanych_paczek} paczkę')
